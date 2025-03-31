@@ -82,6 +82,14 @@ var (
 		{Lat: 67.234563187, Lng: -168.286102782},
 	}
 
+	// large area geoloop
+	largeGeoLoop = GeoLoop{
+		{Lat: 50, Lng: 0},
+		{Lat: 50, Lng: 180},
+		{Lat: 90, Lng: 180},
+		{Lat: 90, Lng: 0},
+	}
+
 	validHole1 = GeoLoop{
 		{Lat: 67.2, Lng: -168.4},
 		{Lat: 67.1, Lng: -168.4},
@@ -576,6 +584,13 @@ func TestPolygonToCells(t *testing.T) {
 		assertErr(t, err)
 		assertErrIs(t, err, ErrResolutionDomain)
 		assertNil(t, cells)
+	})
+
+	t.Run("large area", func(t *testing.T) {
+		t.Parallel()
+
+		_, err := GeoPolygon{GeoLoop: largeGeoLoop}.Cells(6)
+		assertNoErr(t, err)
 	})
 }
 
