@@ -800,6 +800,9 @@ H3Error H3_EXPORT(maxPolygonToCellsSize)(const GeoPolygon *geoPolygon, int res,
     // function provides (but beefing that up to cover causes most situations to
     // overallocate memory)
     numHexagons += POLYGON_TO_CELLS_BUFFER;
+
+    // Double the allocation for starboard's specific use cases of VERY large polygons
+    numHexagons *= 2.1;
     *out = numHexagons;
     return E_SUCCESS;
 }
